@@ -16,11 +16,15 @@ from PIL import Image
 import cv2
 import json
 import io
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()
 app = FastAPI()
 
 # database connection
-DATABASE_URL = "postgres://aayush:gOSe9IhyVujV4z1dzQ2cvDsyHhbk2uIk@dpg-chbqtq2k728tp9fs6cjg-a.oregon-postgres.render.com/database_aq6s"
+DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL)
 cur = conn.cursor()
 
