@@ -7,11 +7,20 @@ import cv2
 import segmentation_models as sm
 from matplotlib import pyplot as plt
 import numpy as np
+from huggingface_hub import hf_hub_download
+import joblib
 
 # Define a function to load the pre-trained segmentation model
 def get_segmentator():
     # Load the pre-trained segmentation model
-    model = tf.keras.models.load_model(".cache/model_50.h5",
+
+    REPO_ID = "aadh-goa/brainmri"
+    FILENAME = "model_50.h5"
+
+
+    model = tf.keras.models.load_model(joblib.load(
+    hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+),
                                         custom_objects={
                                             'binary_crossentropy_plus_jaccard_loss':sm.losses.bce_jaccard_loss,
                                             'iou_score':sm.metrics.iou_score
