@@ -23,10 +23,18 @@ import os
 load_dotenv()
 app = FastAPI()
 
-# database connection
-DATABASE_URL = os.environ['DATABASE_URL']
-conn = psycopg2.connect(DATABASE_URL)
-cur = conn.cursor()
+# Connection information
+host = 'dpg-chbqtq2k728tp9fs6cjg-a.oregon-postgres.render.com'
+port = '5432'
+database = 'database_aq6s'
+user = 'aayush'
+password = 'gOSe9IhyVujV4z1dzQ2cvDsyHhbk2uIk'
+
+# Construct the DSN string
+dsn = f'postgres://{user}:{password}@{host}:{port}/{database}'
+
+# Establish the connection
+connection = psycopg2.connect(dsn)
 
 # security settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
