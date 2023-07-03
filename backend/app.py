@@ -16,11 +16,7 @@ from PIL import Image
 import cv2
 import json
 import io
-from dotenv import load_dotenv
-import os
 
-
-load_dotenv()
 app = FastAPI()
 
 # database connection
