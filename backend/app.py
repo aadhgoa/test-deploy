@@ -39,10 +39,6 @@ dsn = f"postgres://{user}:{password}@{host}:{port}/{database}"
 connection = psycopg2.connect(dsn)
 
 
-
-
-model_path=hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
-
 # security settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
