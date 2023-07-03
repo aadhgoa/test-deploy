@@ -21,26 +21,24 @@ import os
 from huggingface_hub import hf_hub_download
 
 
-
 load_dotenv()
 app = FastAPI()
 
 # Connection information
-host = 'dpg-chbqtq2k728tp9fs6cjg-a.oregon-postgres.render.com'
-port = '5432'
-database = 'database_aq6s'
-user = 'aayush'
-password = 'gOSe9IhyVujV4z1dzQ2cvDsyHhbk2uIk'
+host = "dpg-chbqtq2k728tp9fs6cjg-a.oregon-postgres.render.com"
+port = "5432"
+database = "database_aq6s"
+user = "aayush"
+password = "gOSe9IhyVujV4z1dzQ2cvDsyHhbk2uIk"
 
 # Construct the DSN string
-dsn = f'postgres://{user}:{password}@{host}:{port}/{database}'
+dsn = f"postgres://{user}:{password}@{host}:{port}/{database}"
 
 # Establish the connection
 connection = psycopg2.connect(dsn)
 
 
-
-REPO_ID = "https://huggingface.co/aadh-goa/brainmri/tree/main"
+REPO_ID = "https://huggingface.co/aadh-goa/brainmri/blob/main/model.h5"
 FILENAME = "model.h5"
 
 model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
@@ -52,8 +50,12 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = "your-secret-key"
 
 # CORS settings
-origins = ["http://localhost", "http://localhost:3000",
-           "http://localhost:3001", "http://localhost:3002"]
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -72,8 +74,10 @@ async def register(username: str, email: str, password: str, confirm_password: s
 
     hashed_password = pwd_context.hash(password)
     try:
-        cur.execute("INSERT INTO users (username,email,password) VALUES (%s,%s, %s)",
-                    (username, email, hashed_password))
+        cur.execute(
+            "INSERT INTO users (username,email,password) VALUES (%s,%s, %s)",
+            (username, email, hashed_password),
+        )
         conn.commit()
         return {"message": "User registered successfully"}
     except:
@@ -89,16 +93,15 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     cur.execute("SELECT password FROM users WHERE username = %s", (username,))
     result = cur.fetchone()
     if not result:
-        raise HTTPException(
-            status_code=400, detail="Incorrect username or password")
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
     hashed_password = result[0]
     if not pwd_context.verify(password, hashed_password):
-        raise HTTPException(
-            status_code=400, detail="Incorrect username or password")
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
 
     # generate JWT token for authentication
     access_token = jwt.encode({"sub": username}, SECRET_KEY)
     return {"access_token": access_token, "token_type": "bearer"}
+
 
 # protected endpoint
 
@@ -132,7 +135,8 @@ async def get_segmentation_map(image: UploadFile = File(...)):
     segmented_image = get_segments(model, image)
 
     segmented_image = cv2.cvtColor(
-        np.array((segmented_image*255), dtype=np.uint8), cv2.COLOR_BGR2GRAY)
+        np.array((segmented_image * 255), dtype=np.uint8), cv2.COLOR_BGR2GRAY
+    )
     print(segmented_image)
     img_bytes = cv2.imencode(".png", segmented_image)[1].tobytes()
 
@@ -141,4 +145,5 @@ async def get_segmentation_map(image: UploadFile = File(...)):
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("backend:app", host="localhost", port="8001")
