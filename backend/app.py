@@ -42,7 +42,9 @@ connection = psycopg2.connect(dsn)
 REPO_ID = "aadh-goa/brainmri"
 FILENAME = "model.h5"
 
-model = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+model = joblib(
+    hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+)  # download the model from huggingface hub
 
 
 # security settings
