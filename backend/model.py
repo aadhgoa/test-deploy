@@ -19,11 +19,12 @@ def get_segmentator():
 
     model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
     model = tf.keras.models.load_model(model_path,
-                                    custom_objects={
-                                        'binary_crossentropy_plus_jaccard_loss': sm.losses.bce_jaccard_loss,
-                                        'iou_score': sm.metrics.iou_score
-                                    })
+                                        custom_objects={
+                                            'binary_crossentropy_plus_jaccard_loss': sm.losses.bce_jaccard_loss,
+                                            'iou_score': sm.metrics.iou_score
+                                        })
     return model
+
 
 # Define a function to get the segmented image
 def get_segments(model, image):
