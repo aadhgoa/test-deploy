@@ -19,6 +19,7 @@ import io
 from dotenv import load_dotenv
 import os
 from huggingface_hub import hf_hub_download
+import joblib
 
 
 load_dotenv()
@@ -38,11 +39,12 @@ dsn = f"postgres://{user}:{password}@{host}:{port}/{database}"
 connection = psycopg2.connect(dsn)
 
 
-REPO_ID = "https://huggingface.co/aadh-goa/brainmri/blob/main/model.h5"
+REPO_ID = "https://huggingface.co/aadh-goa/brainmri/blob/main/"
 FILENAME = "model.h5"
 
-model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
-
+model = joblib.load(
+    hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+)
 
 # security settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
