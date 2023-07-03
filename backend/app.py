@@ -18,6 +18,8 @@ import json
 import io
 from dotenv import load_dotenv
 import os
+from huggingface_hub import hf_hub_download
+
 
 
 load_dotenv()
@@ -35,6 +37,14 @@ dsn = f'postgres://{user}:{password}@{host}:{port}/{database}'
 
 # Establish the connection
 connection = psycopg2.connect(dsn)
+
+
+
+REPO_ID = "https://huggingface.co/aadh-goa/brainmri/tree/main"
+FILENAME = "model.h5"
+
+model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+
 
 # security settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
