@@ -39,7 +39,7 @@ dsn = f"postgres://{user}:{password}@{host}:{port}/{database}"
 connection = psycopg2.connect(dsn)
 
 
-REPO_ID = "https://huggingface.co/aadh-goa/brainmri/blob/main/"
+REPO_ID = "aadh-goa/brainmri"
 FILENAME = "model.h5"
 
 model = joblib.load(
