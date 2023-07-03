@@ -11,3 +11,4 @@ segmentation-models==1.0.1
 streamlit==1.20.0
 tensorflow==2.11.1
 uvicorn==0.21.1
+pyjwt==2.7.0
