@@ -40,7 +40,7 @@ connection = psycopg2.connect(dsn)
 
 
 REPO_ID = "aadh-goa/brainmri"
-FILENAME = "model.h5"
+FILENAME = "model_50.h5"
 
 model_path=hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
 
