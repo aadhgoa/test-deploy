@@ -42,7 +42,7 @@ connection = psycopg2.connect(dsn)
 REPO_ID = "aadh-goa/brainmri"
 FILENAME = "model.h5"
 
-hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+model_path=hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
 
 # security settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
