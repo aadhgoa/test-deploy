@@ -17,14 +17,12 @@ def get_segmentator():
     REPO_ID = "aadh-goa/brainmri"
     FILENAME = "model_50.h5"
 
-
-    model = tf.keras.models.load_model(joblib.load(
-    hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
-),
-                                        custom_objects={
-                                            'binary_crossentropy_plus_jaccard_loss':sm.losses.bce_jaccard_loss,
-                                            'iou_score':sm.metrics.iou_score
-                                        })
+    model_path = hf_hub_download(repo_id=REPO_ID, filename=FILENAME)
+    model = tf.keras.models.load_model(model_path,
+                                    custom_objects={
+                                        'binary_crossentropy_plus_jaccard_loss': sm.losses.bce_jaccard_loss,
+                                        'iou_score': sm.metrics.iou_score
+                                    })
     return model
 
 # Define a function to get the segmented image
